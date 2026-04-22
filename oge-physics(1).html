@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Механика · ОГЭ Физика</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: rgba(255,255,255,0.08);
+    --accent: #3b82f6;
+    --accent2: #06b6d4;
+    --accent3: #a78bfa;
+    --gold: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --card-radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Golos Text', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* BG grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,14,26,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 60px;
+  }
+
+  .nav-logo {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  .nav-logo span { color: var(--accent2); }
+
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .nav-tab {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-tab:hover { color: var(--text); background: var(--surface2); }
+  .nav-tab.active { color: var(--accent); background: rgba(59,130,246,0.15); }
+
+  /* SECTIONS */
+  .section {
+    display: none;
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .section.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 4rem 1.5rem 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 100px;
+    border: 1px solid rgba(59,130,246,0.4);
+    color: var(--accent2);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 span { color: var(--accent); }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 17px;
+    max-width: 500px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-stat {
+    text-align: center;
+  }
+
+  .hero-stat-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .hero-stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .quick-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    max-width: 960px;
+    margin: 2rem auto 0;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .quick-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .quick-card:hover {
+    border-color: var(--accent);
+    background: var(--surface2);
+    transform: translateY(-2px);
+  }
+
+  .quick-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .quick-card-icon.blue { background: rgba(59,130,246,0.15); }
+  .quick-card-icon.cyan { background: rgba(6,182,212,0.15); }
+  .quick-card-icon.purple { background: rgba(167,139,250,0.15); }
+  .quick-card-icon.gold { background: rgba(245,158,11,0.15); }
+
+  .quick-card-title { font-weight: 600; font-size: 14px; }
+  .quick-card-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+  }
+
+  .section-title span { color: var(--accent); }
+
+  .section-subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 2rem;
+  }
+
+  /* THEORY */
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 2rem;
+  }
+
+  .topic-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    color: var(--text);
+    font-family: 'Golos Text', sans-serif;
+  }
+
+  .topic-btn:hover, .topic-btn.active {
+    border-color: var(--accent);
+    background: var(--surface2);
+  }
+
+  .topic-btn.active { border-color: var(--accent); }
+
+  .topic-btn-title { font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+  .topic-btn-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  .theory-content {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 2rem;
+    display: none;
+  }
+
+  .theory-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+  .theory-content h3 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--accent2);
+  }
+
+  .theory-content p { color: var(--muted); margin-bottom: 1rem; line-height: 1.8; }
+
+  .formula-block {
+    background: var(--surface2);
+    border: 1px solid rgba(59,130,246,0.25);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+    color: var(--accent2);
+    position: relative;
+  }
+
+  .formula-block .formula-label {
+    font-size: 11px;
+    font-family: 'Golos Text', sans-serif;
+    color: var(--muted);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .formula-main {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .formula-where { font-size: 12px; color: var(--muted); font-family: 'Golos Text', sans-serif; }
+
+  .key-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 1rem 0;
+  }
+
+  .key-list li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .key-list li::before {
+    content: '→';
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .tip-box {
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.3);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: 14px;
+    color: #fcd34d;
+  }
+
+  .tip-box::before { content: '💡 '; }
+
+  /* TASKS */
+  .task-filter {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    transition: all 0.2s;
+    font-family: 'Golos Text', sans-serif;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(59,130,246,0.1);
+  }
+
+  .task-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .task-card:hover { border-color: rgba(59,130,246,0.4); }
+
+  .task-header {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .task-num {
+    background: rgba(59,130,246,0.15);
+    color: var(--accent);
+    font-family: 'Unbounded', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+
+  .task-num.medium { background: rgba(245,158,11,0.15); color: var(--gold); }
+  .task-num.hard { background: rgba(239,68,68,0.15); color: var(--red); }
+
+  .task-text { font-size: 15px; line-height: 1.7; }
+
+  .task-toggle {
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-family: 'Golos Text', sans-serif;
+    flex-shrink: 0;
+  }
+
+  .task-toggle:hover { color: var(--accent); border-color: var(--accent); }
+
+  .task-solution {
+    display: none;
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .task-solution.open { display: block; animation: fadeIn 0.25s ease; }
+
+  .solution-step {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(6,182,212,0.15);
+    color: var(--accent2);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step-text { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+  .answer-box {
+    display: inline-block;
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.35);
+    border-radius: 8px;
+    padding: 6px 14px;
+    color: var(--green);
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  /* CARDS */
+  .cards-controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .cards-mode-btn {
+    padding: 8px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    font-family: 'Golos Text', sans-serif;
+  }
+
+  .cards-mode-btn:hover, .cards-mode-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .card-progress {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .flashcard-arena {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .flashcard-wrap {
+    width: 100%;
+    max-width: 580px;
+    perspective: 1200px;
+  }
+
+  .flashcard {
+    width: 100%;
+    height: 280px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+
+  .flashcard.flipped { transform: rotateY(180deg); }
+
+  .card-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    backface-visibility: hidden;
+    text-align: center;
+  }
+
+  .card-front {
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  .card-back {
+    background: linear-gradient(135deg, #1e3a5f 0%, #1a2235 100%);
+    border: 1px solid rgba(59,130,246,0.3);
+    transform: rotateY(180deg);
+  }
+
+  .card-tag {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .card-question {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(16px, 3vw, 20px);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .card-hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 1rem;
+  }
+
+  .card-answer {
+    font-size: clamp(22px, 5vw, 32px);
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: var(--accent2);
+    margin-bottom: 0.5rem;
+  }
+
+  .card-answer-desc { font-size: 14px; color: #94a3b8; }
+
+  .card-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .card-btn {
+    padding: 10px 28px;
+    border-radius: 12px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Golos Text', sans-serif;
+  }
+
+  .card-btn.wrong {
+    background: rgba(239,68,68,0.15);
+    color: var(--red);
+    border: 1px solid rgba(239,68,68,0.3);
+  }
+
+  .card-btn.wrong:hover { background: rgba(239,68,68,0.25); }
+
+  .card-btn.correct {
+    background: rgba(16,185,129,0.15);
+    color: var(--green);
+    border: 1px solid rgba(16,185,129,0.3);
+  }
+
+  .card-btn.correct:hover { background: rgba(16,185,129,0.25); }
+
+  .card-btn.next {
+    background: var(--accent);
+    color: white;
+    padding: 10px 32px;
+  }
+
+  .card-btn.next:hover { background: #2563eb; }
+
+  .card-counter {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .progress-bar-wrap {
+    width: 100%;
+    max-width: 580px;
+    height: 4px;
+    background: var(--surface2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+
+  .score-board {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 2rem;
+    text-align: center;
+    max-width: 400px;
+    margin: 0 auto;
+    display: none;
+  }
+
+  .score-board.visible { display: block; animation: fadeIn 0.4s ease; }
+
+  .score-big {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--accent);
+  }
+
+  .score-label { color: var(--muted); margin-bottom: 1.5rem; }
+
+  .restart-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Golos Text', sans-serif;
+    transition: background 0.2s;
+  }
+
+  .restart-btn:hover { background: #2563eb; }
+
+  /* FORMULAS TABLE */
+  .formulas-grid {
+    display: grid;
+    gap: 12px;
+  }
+
+  .formula-row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 1.1rem 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 12px;
+    align-items: center;
+    transition: border-color 0.2s;
+  }
+
+  .formula-row:hover { border-color: rgba(59,130,246,0.3); }
+
+  .fr-name { font-weight: 600; font-size: 14px; }
+  .fr-formula {
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    color: var(--accent2);
+    font-weight: 600;
+  }
+
+  .fr-units { font-size: 12px; color: var(--muted); text-align: right; }
+
+  .fr-section {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin: 1.5rem 0 0.5rem;
+    padding-left: 4px;
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 1rem; gap: 1rem; }
+    .nav-tab { padding: 5px 10px; font-size: 12px; }
+    .formula-row { grid-template-columns: 1fr 1fr; }
+    .fr-units { display: none; }
+    .task-header { flex-wrap: wrap; }
+    .task-toggle { margin-left: 0; width: 100%; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">ФИЗИКА<span>·ОГЭ</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('home', this)">Главная</button>
+    <button class="nav-tab" onclick="showSection('theory', this)">Теория</button>
+    <button class="nav-tab" onclick="showSection('tasks', this)">Задачи</button>
+    <button class="nav-tab" onclick="showSection('cards', this)">Карточки</button>
+    <button class="nav-tab" onclick="showSection('formulas', this)">Формулы</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<section id="home" class="section active">
+  <div class="hero">
+    <div class="hero-badge">ОГЭ · Физика · 9 класс</div>
+    <h1>Механика —<br><span>разберись раз и навсегда</span></h1>
+    <p>Теория, задачи из ОГЭ с разбором и система карточек для запоминания формул</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-num">5</div><div class="hero-stat-label">разделов теории</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">20</div><div class="hero-stat-label">задач с разбором</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">28</div><div class="hero-stat-label">карточек-формул</div></div>
+    </div>
+  </div>
+  <div class="quick-nav">
+    <div class="quick-card" onclick="showSection('theory', document.querySelectorAll('.nav-tab')[1])">
+      <div class="quick-card-icon blue">📐</div>
+      <div>
+        <div class="quick-card-title">Теория</div>
+        <div class="quick-card-desc">Кинематика, динамика, энергия</div>
+      </div>
+    </div>
+    <div class="quick-card" onclick="showSection('tasks', document.querySelectorAll('.nav-tab')[2])">
+      <div class="quick-card-icon cyan">📝</div>
+      <div>
+        <div class="quick-card-title">Задачи ОГЭ</div>
+        <div class="quick-card-desc">20 задач с пошаговым решением</div>
+      </div>
+    </div>
+    <div class="quick-card" onclick="showSection('cards', document.querySelectorAll('.nav-tab')[3])">
+      <div class="quick-card-icon purple">🃏</div>
+      <div>
+        <div class="quick-card-title">Карточки</div>
+        <div class="quick-card-desc">Тренируй формулы</div>
+      </div>
+    </div>
+    <div class="quick-card" onclick="showSection('formulas', document.querySelectorAll('.nav-tab')[4])">
+      <div class="quick-card-icon gold">📋</div>
+      <div>
+        <div class="quick-card-title">Все формулы</div>
+        <div class="quick-card-desc">Шпаргалка для повторения</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THEORY -->
+<section id="theory" class="section">
+  <div class="section-title">Теория: <span>Механика</span></div>
+  <div class="section-subtitle">Выбери раздел, чтобы прочитать материал</div>
+
+  <div class="topic-grid">
+    <button class="topic-btn active" onclick="showTopic('t1', this)">
+      <div class="topic-btn-title">⚡ Кинематика</div>
+      <div class="topic-btn-sub">Скорость, ускорение, перемещение</div>
+    </button>
+    <button class="topic-btn" onclick="showTopic('t2', this)">
+      <div class="topic-btn-title">⚖️ Динамика</div>
+      <div class="topic-btn-sub">Законы Ньютона, сила</div>
+    </button>
+    <button class="topic-btn" onclick="showTopic('t3', this)">
+      <div class="topic-btn-title">🔄 Статика и трение</div>
+      <div class="topic-btn-sub">Давление, трение, момент силы</div>
+    </button>
+    <button class="topic-btn" onclick="showTopic('t4', this)">
+      <div class="topic-btn-title">⚡ Работа и энергия</div>
+      <div class="topic-btn-sub">КПД, мощность, ЗСЭ</div>
+    </button>
+    <button class="topic-btn" onclick="showTopic('t5', this)">
+      <div class="topic-btn-title">🌊 Колебания и волны</div>
+      <div class="topic-btn-sub">Маятник, период, длина волны</div>
+    </button>
+  </div>
+
+  <div id="t1" class="theory-content active">
+    <h3>Кинематика</h3>
+    <p>Кинематика изучает движение тел, не рассматривая причины этого движения. Основные величины: путь (s), перемещение, скорость (v), ускорение (a), время (t).</p>
+
+    <div class="formula-block">
+      <div class="formula-label">Равномерное движение</div>
+      <div class="formula-main">v = s / t</div>
+      <div class="formula-where">v — скорость (м/с), s — путь (м), t — время (с)</div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-label">Равноускоренное движение</div>
+      <div class="formula-main">v = v₀ + at</div>
+      <div class="formula-where">v₀ — начальная скорость, a — ускорение (м/с²)</div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-label">Путь при равноускоренном движении</div>
+      <div class="formula-main">s = v₀t + at²/2</div>
+      <div class="formula-where">Если v₀ = 0: s = at²/2</div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-label">Скорость через путь</div>
+      <div class="formula-main">v² = v₀² + 2as</div>
+    </div>
+
+    <p>Свободное падение — частный случай равноускоренного движения с ускорением g = 10 м/с² (или g ≈ 9,8 м/с²). В задачах ОГЭ обычно используют g = 10 м/с².</p>
+
+    <ul class="key-list">
+      <li>При торможении ускорение направлено против скорости (a < 0)</li>
+      <li>Скорость равномерного движения по графику s(t) — это тангенс угла наклона</li>
+      <li>Площадь под графиком v(t) = пройденный путь</li>
+    </ul>
+
+    <div class="tip-box">На ОГЭ часто просят прочитать данные с графика — умей определять скорость, ускорение и путь по графикам v(t) и s(t).</div>
+  </div>
+
+  <div id="t2" class="theory-content">
+    <h3>Динамика — Законы Ньютона</h3>
+    <p>Динамика объясняет ПОЧЕМУ тела движутся именно так. Основа — три закона Ньютона.</p>
+
+    <div class="formula-block">
+      <div class="formula-label">Второй закон Ньютона (основной)</div>
+      <div class="formula-main">F = ma</div>
+      <div class="formula-where">F — результирующая сила (Н), m — масса (кг), a — ускорение (м/с²)</div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-label">Сила тяжести</div>
+      <div class="formula-main">F = mg</div>
+      <div class="formula-where">g = 10 м/с² — ускорение свободного падения</div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-label">Закон всемирного тяготения</div>
+      <div class="formula-main">F = G · m₁m₂ / r²</div>
+      <div class="formula-where">G = 6,67 · 10⁻¹¹ Н·м²/кг²</div>
+    </div>
+
+    <ul class="key-list">
+      <li><b>1-й закон:</b> тело покоится или движется равномерно, если сумма сил = 0</li>
+      <li><b>2-й закон:</b> F = ma — главная формула динамики</li>
+      <li><b>3-й закон:</b> силы действия и противодействия равны и противоположны</li>
+      <li>Вес тела — сила давления тела на опору, равна mg при покое</li>
+    </ul>
+
+    <div class="tip-box">Перегрузка: тело едет вверх с ускорением → вес больше mg. Невесомость: свободное падение → вес = 0.</div>
+  </div>
+
+  <div id="t3" class="theory-content">
+    <h3>Статика, давление и трение</h3>
+
+    <div class="formula-block">
+      <div class="formula-label">Сила трения</div>
+      <div class="formula-main">Fтр = μN</div>
+      <div class="formula-where">μ — коэффициент трения, N — сила нормального давления (Н)</div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-label">Давление</div>
+      <div class="formula-main">p = F / S</div>
+      <div class="formula-where">p — давление (Па), F — сила (Н), S — площадь (м²)</div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-label">Давление в жидкости (гидростатическое)</div>
+      <div class="formula-main">p = ρgh</div>
+      <div class="formula-where">ρ — плотность (кг/м³), h — глубина (м)</div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-label">Сила Архимеда</div>
+      <div class="formula-main">Fа = ρжидк · g · Vтела</div>
+      <div class="formula-where">V — объём вытесненной жидкости (м³)</div>
+    </div>
+
+    <ul class="key-list">
+      <li>Тело плавает, если Fа = mg (ρтела = ρжидкости)</li>
+      <li>Момент силы: M = F · l, где l — плечо силы</li>
+      <li>Условие равновесия рычага: F₁l₁ = F₂l₂</li>
+    </ul>
+
+    <div class="tip-box">Архимедова сила не зависит от формы тела и от глубины погружения — только от объёма.</div>
+  </div>
+
+  <div id="t4" class="theory-content">
+    <h3>Работа, мощность и энергия</h3>
+
+    <div class="formula-block">
+      <div class="formula-label">Механическая работа</div>
+      <div class="formula-main">A = F · s · cos α</div>
+      <div class="formula-where">α — угол между силой и перемещением. Если α = 0°: A = Fs</div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-label">Мощность</div>
+      <div class="formula-main">P = A / t = Fv</div>
+      <div class="formula-where">P — мощность (Вт), t — время (с)</div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-label">Кинетическая энергия</div>
+      <div class="formula-main">Eк = mv² / 2</div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-label">Потенциальная энергия (сила тяжести)</div>
+      <div class="formula-main">Eп = mgh</div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-label">КПД</div>
+      <div class="formula-main">η = Aполезн / Aполн × 100%</div>
+    </div>
+
+    <ul class="key-list">
+      <li>Закон сохранения энергии: Eк + Eп = const (при отсутствии трения)</li>
+      <li>Теорема о кинетической энергии: Aрезульт = ΔEк</li>
+      <li>КПД всегда меньше 100% из-за трения</li>
+    </ul>
+
+    <div class="tip-box">На ОГЭ часто спрашивают КПД наклонной плоскости: Aполезн = mgh, Aполн = F·s (F — толкающая сила, s — длина плоскости).</div>
+  </div>
+
+  <div id="t5" class="theory-content">
+    <h3>Колебания и волны</h3>
+
+    <div class="formula-block">
+      <div class="formula-label">Период и частота</div>
+      <div class="formula-main">T = 1/ν ; ν = 1/T</div>
+      <div class="formula-where">T — период (с), ν — частота (Гц)</div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-label">Период математического маятника</div>
+      <div class="formula-main">T = 2π√(l/g)</div>
+      <div class="formula-where">l — длина нити (м), g = 10 м/с²</div>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-label">Длина волны</div>
+      <div class="formula-main">λ = v · T = v / ν</div>
+      <div class="formula-where">v — скорость волны (м/с), λ — длина волны (м)</div>
+    </div>
+
+    <ul class="key-list">
+      <li>Период маятника зависит только от длины нити, не от массы и амплитуды</li>
+      <li>Период пружинного маятника: T = 2π√(m/k)</li>
+      <li>Звук — механическая волна, распространяется в среде (не в вакууме)</li>
+    </ul>
+
+    <div class="tip-box">Чтобы увеличить период маятника в 2 раза — нужно увеличить длину нити в 4 раза (T ∝ √l).</div>
+  </div>
+</section>
+
+<!-- TASKS -->
+<section id="tasks" class="section">
+  <div class="section-title">Задачи из <span>ОГЭ</span></div>
+  <div class="section-subtitle">Реальные типы заданий с пошаговым решением</div>
+
+  <div class="task-filter">
+    <button class="filter-btn active" onclick="filterTasks('all', this)">Все</button>
+    <button class="filter-btn" onclick="filterTasks('easy', this)">Базовый</button>
+    <button class="filter-btn" onclick="filterTasks('medium', this)">Средний</button>
+    <button class="filter-btn" onclick="filterTasks('hard', this)">Сложный</button>
+  </div>
+
+  <div id="tasks-list"></div>
+</section>
+
+<!-- CARDS -->
+<section id="cards" class="section">
+  <div class="section-title">Карточки: <span>Формулы</span></div>
+  <div class="section-subtitle">Нажми на карточку, чтобы увидеть ответ</div>
+
+  <div class="cards-controls">
+    <button class="cards-mode-btn active" onclick="setCardFilter('all', this)">Все</button>
+    <button class="cards-mode-btn" onclick="setCardFilter('kinematics', this)">Кинематика</button>
+    <button class="cards-mode-btn" onclick="setCardFilter('dynamics', this)">Динамика</button>
+    <button class="cards-mode-btn" onclick="setCardFilter('energy', this)">Энергия</button>
+    <button class="cards-mode-btn" onclick="setCardFilter('waves', this)">Волны</button>
+    <div class="card-progress" id="card-progress">1 / 28</div>
+  </div>
+
+  <div class="flashcard-arena" id="flashcard-arena">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill" style="width:4%"></div>
+    </div>
+
+    <div class="flashcard-wrap">
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="card-face card-front">
+          <div class="card-tag" id="card-tag">Кинематика</div>
+          <div class="card-question" id="card-question">Скорость равномерного движения</div>
+          <div class="card-hint">↺ нажми, чтобы увидеть формулу</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-tag" id="card-tag-back"></div>
+          <div class="card-answer" id="card-answer">v = s / t</div>
+          <div class="card-answer-desc" id="card-answer-desc">v (м/с), s (м), t (с)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-counter" id="card-counter">Карточка 1 из 28</div>
+
+    <div class="card-actions" id="card-actions" style="display:none">
+      <button class="card-btn wrong" onclick="markCard(false)">✗ Не знал</button>
+      <button class="card-btn correct" onclick="markCard(true)">✓ Знаю</button>
+    </div>
+
+    <div class="card-actions" id="card-next" style="display:flex">
+      <button class="card-btn next" onclick="flipCard()">Показать ответ</button>
+    </div>
+  </div>
+
+  <div class="score-board" id="score-board">
+    <div class="score-big" id="score-num">0/0</div>
+    <div class="score-label">правильных ответов</div>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:1.5rem;">Отличная работа! Продолжай повторять слабые места.</p>
+    <button class="restart-btn" onclick="restartCards()">🔄 Заново</button>
+  </div>
+</section>
+
+<!-- FORMULAS -->
+<section id="formulas" class="section">
+  <div class="section-title">Все <span>формулы</span></div>
+  <div class="section-subtitle">Полная шпаргалка по механике для ОГЭ</div>
+  <div id="formulas-table"></div>
+</section>
+
+<script>
+// ===== NAVIGATION =====
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+function showTopic(id, btn) {
+  document.querySelectorAll('.theory-content').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ===== TASKS DATA =====
+const tasks = [
+  // EASY
+  {
+    id: 1, level: 'easy',
+    text: 'Тело движется равномерно со скоростью 15 м/с. Какой путь пройдёт тело за 4 секунды?',
+    steps: [
+      'Запишем формулу равномерного движения: s = v · t',
+      'Подставляем: s = 15 м/с · 4 с',
+      'Считаем: s = 60 м'
+    ],
+    answer: 's = 60 м'
+  },
+  {
+    id: 2, level: 'easy',
+    text: 'Тело массой 5 кг движется с ускорением 3 м/с². Какая результирующая сила действует на тело?',
+    steps: [
+      'По второму закону Ньютона: F = m · a',
+      'Подставляем: F = 5 кг · 3 м/с²',
+      'Считаем: F = 15 Н'
+    ],
+    answer: 'F = 15 Н'
+  },
+  {
+    id: 3, level: 'easy',
+    text: 'Автомобиль разогнался от 0 до 72 км/ч за 10 секунд. Найдите ускорение.',
+    steps: [
+      'Переводим скорость: 72 км/ч = 72/3,6 = 20 м/с',
+      'Формула ускорения: a = (v − v₀) / t',
+      'a = (20 − 0) / 10 = 2 м/с²'
+    ],
+    answer: 'a = 2 м/с²'
+  },
+  {
+    id: 4, level: 'easy',
+    text: 'Тело начинает движение из состояния покоя и движется с ускорением 4 м/с². Какой путь пройдёт тело за 5 секунд?',
+    steps: [
+      'При v₀ = 0 путь: s = at²/2',
+      'Подставляем: s = 4 · 25 / 2 = 50 м'
+    ],
+    answer: 's = 50 м'
+  },
+  {
+    id: 5, level: 'easy',
+    text: 'Какова сила тяжести, действующая на тело массой 8 кг? (g = 10 м/с²)',
+    steps: [
+      'Формула силы тяжести: F = mg',
+      'Подставляем: F = 8 · 10 = 80 Н'
+    ],
+    answer: 'F = 80 Н'
+  },
+  // MEDIUM
+  {
+    id: 6, level: 'medium',
+    text: 'Тело брошено вертикально вверх со скоростью 30 м/с. На какую максимальную высоту оно поднимется? (g = 10 м/с²)',
+    steps: [
+      'В наивысшей точке v = 0. Используем: v² = v₀² − 2gh',
+      '0 = 900 − 2 · 10 · h → h = 900/20 = 45 м'
+    ],
+    answer: 'h = 45 м'
+  },
+  {
+    id: 7, level: 'medium',
+    text: 'На тело действуют две силы: F₁ = 30 Н (вправо) и F₂ = 12 Н (влево). Масса тела 6 кг. Найдите ускорение.',
+    steps: [
+      'Результирующая сила: F = F₁ − F₂ = 30 − 12 = 18 Н',
+      'По 2-му закону Ньютона: a = F/m = 18/6 = 3 м/с²'
+    ],
+    answer: 'a = 3 м/с²'
+  },
+  {
+    id: 8, level: 'medium',
+    text: 'Кинетическая энергия тела массой 4 кг равна 200 Дж. Найдите скорость тела.',
+    steps: [
+      'Формула: Eк = mv²/2 → v² = 2Eк/m',
+      'v² = 2 · 200 / 4 = 100',
+      'v = √100 = 10 м/с'
+    ],
+    answer: 'v = 10 м/с'
+  },
+  {
+    id: 9, level: 'medium',
+    text: 'Какое давление оказывает столб ртути высотой 76 см? (ρ ртути = 13 600 кг/м³, g = 10 м/с²)',
+    steps: [
+      'Переводим высоту: h = 0,76 м',
+      'p = ρgh = 13 600 · 10 · 0,76',
+      'p = 103 360 Па ≈ 103,4 кПа (≈ 1 атм)'
+    ],
+    answer: 'p ≈ 103 360 Па'
+  },
+  {
+    id: 10, level: 'medium',
+    text: 'Пружина жёсткостью 400 Н/м сжата на 5 см. Какова потенциальная энергия пружины?',
+    steps: [
+      'Переводим деформацию: x = 0,05 м',
+      'Формула: Eп = kx²/2 = 400 · (0,05)² / 2',
+      'Eп = 400 · 0,0025 / 2 = 0,5 Дж'
+    ],
+    answer: 'Eп = 0,5 Дж'
+  },
+  {
+    id: 11, level: 'medium',
+    text: 'Моторная лодка развивает мощность 12 кВт при скорости 6 м/с. Найдите силу тяги двигателя.',
+    steps: [
+      'При равномерном движении: P = F · v',
+      'Выражаем силу: F = P/v = 12000/6',
+      'F = 2000 Н = 2 кН'
+    ],
+    answer: 'F = 2000 Н'
+  },
+  {
+    id: 12, level: 'medium',
+    text: 'Стальной шарик объёмом 200 см³ полностью погружён в воду. Найдите силу Архимеда. (ρ воды = 1000 кг/м³)',
+    steps: [
+      'Переводим объём: V = 200 см³ = 0,0002 м³',
+      'Fа = ρ · g · V = 1000 · 10 · 0,0002',
+      'Fа = 2 Н'
+    ],
+    answer: 'Fа = 2 Н'
+  },
+  {
+    id: 13, level: 'medium',
+    text: 'Период колебаний маятника равен 2 с. Найдите длину нити. (g = 10 м/с², π² ≈ 10)',
+    steps: [
+      'Формула: T = 2π√(l/g)',
+      'Возводим в квадрат: T² = 4π²l/g',
+      'l = T²g/(4π²) = 4 · 10 / (4 · 10) = 1 м'
+    ],
+    answer: 'l = 1 м'
+  },
+  // HARD
+  {
+    id: 14, level: 'hard',
+    text: 'Тело массой 3 кг поднимают по наклонной плоскости длиной 15 м на высоту 5 м. Коэффициент трения μ = 0,1. Найдите КПД наклонной плоскости. (g = 10 м/с²)',
+    steps: [
+      'Полезная работа (подъём): Aпол = mgh = 3 · 10 · 5 = 150 Дж',
+      'Сила нормальной реакции: N = mg·cosα. cosα = √(15²−5²)/15 = √200/15 ≈ 0,943',
+      'Сила трения: Fтр = μN = 0,1 · 3 · 10 · 0,943 ≈ 2,83 Н',
+      'Работа трения: Aтр = Fтр · s = 2,83 · 15 ≈ 42,4 Дж',
+      'Полная работа: Aполн = 150 + 42,4 ≈ 192,4 Дж',
+      'КПД: η = 150/192,4 ≈ 0,78 = 78%'
+    ],
+    answer: 'η ≈ 78%'
+  },
+  {
+    id: 15, level: 'hard',
+    text: 'Тело соскальзывает с горки высотой 5 м. Коэффициент трения μ = 0,2, длина горки 10 м. Найдите скорость у основания.',
+    steps: [
+      'По закону сохранения энергии с трением: mgh = mv²/2 + Fтр·s',
+      'Fтр·s = μmg·cosα·s. Здесь cosα = √(10²−5²)/10 = √75/10 = 0,866',
+      'Работа трения: Aтр = 0,2 · m · 10 · 0,866 · 10 = 17,32m Дж',
+      'mgh − Aтр = mv²/2 → v² = 2(gh − μg·cosα·s)',
+      'v² = 2(10·5 − 0,2·10·0,866·10) = 2(50 − 17,32) = 65,36',
+      'v = √65,36 ≈ 8,1 м/с'
+    ],
+    answer: 'v ≈ 8,1 м/с'
+  },
+  {
+    id: 16, level: 'hard',
+    text: 'Автомобиль массой 1200 кг тормозит с начальной скоростью 90 км/ч до полной остановки. Коэффициент трения μ = 0,5. Найдите тормозной путь.',
+    steps: [
+      'Переводим: v₀ = 90 км/ч = 25 м/с',
+      'Ускорение торможения: a = μg = 0,5 · 10 = 5 м/с²',
+      'Формула v² = v₀² − 2as, при v = 0: s = v₀²/(2a)',
+      's = 25² / (2 · 5) = 625/10 = 62,5 м'
+    ],
+    answer: 's = 62,5 м'
+  },
+  {
+    id: 17, level: 'hard',
+    text: 'Тело брошено горизонтально со скоростью 10 м/с с высоты 20 м. Найдите: а) время полёта, б) дальность полёта. (g = 10 м/с²)',
+    steps: [
+      'а) Вертикальное движение: h = gt²/2 → t = √(2h/g)',
+      't = √(2·20/10) = √4 = 2 с',
+      'б) Горизонтальное движение (равномерное): x = v₀ · t',
+      'x = 10 · 2 = 20 м'
+    ],
+    answer: 't = 2 с, x = 20 м'
+  },
+  {
+    id: 18, level: 'hard',
+    text: 'Рычаг в равновесии. Плечо первой силы 0,4 м, она равна 60 Н. Плечо второй силы 0,6 м. Найдите вторую силу. На каком расстоянии от точки опоры нужно приложить силу 40 Н, чтобы сохранить равновесие?',
+    steps: [
+      'Условие равновесия рычага: F₁·l₁ = F₂·l₂',
+      'F₂ = F₁·l₁/l₂ = 60 · 0,4 / 0,6 = 40 Н',
+      'Для силы 40 Н: 60 · 0,4 = 40 · l → l = 24/40 = 0,6 м',
+      'Значит, 40 Н нужно приложить на расстоянии 0,6 м от точки опоры'
+    ],
+    answer: 'F₂ = 40 Н; l = 0,6 м'
+  },
+  {
+    id: 19, level: 'hard',
+    text: 'Звуковая волна в воздухе имеет частоту 440 Гц. Скорость звука 340 м/с. Найдите длину волны. Как изменится длина волны, если частота вырастет в 2 раза?',
+    steps: [
+      'Формула длины волны: λ = v/ν',
+      'λ = 340/440 ≈ 0,773 м',
+      'При ν₂ = 880 Гц: λ₂ = 340/880 ≈ 0,386 м',
+      'Длина волны уменьшится в 2 раза (λ ∝ 1/ν при постоянной скорости)'
+    ],
+    answer: 'λ ≈ 0,77 м; при удвоении ν → λ уменьшится в 2 раза'
+  },
+  {
+    id: 20, level: 'hard',
+    text: 'Тело массой 2 кг падает с высоты 10 м. На высоте 4 м от земли найдите: а) скорость, б) кинетическую и потенциальную энергии. (g = 10 м/с², трение не учитывать)',
+    steps: [
+      'По ЗСЭ: mgh₀ = mv²/2 + mgh',
+      'v² = 2g(h₀ − h) = 2 · 10 · (10 − 4) = 120',
+      'v = √120 = 2√30 ≈ 10,95 м/с',
+      'Eк = mv²/2 = 2 · 120/2 = 120 Дж',
+      'Eп = mgh = 2 · 10 · 4 = 80 Дж',
+      'Проверка: Eк + Eп = 200 Дж = mgh₀ ✓'
+    ],
+    answer: 'v ≈ 10,95 м/с; Eк = 120 Дж; Eп = 80 Дж'
+  }
+];
+
+function renderTasks(filter) {
+  const list = document.getElementById('tasks-list');
+  const filtered = filter === 'all' ? tasks : tasks.filter(t => t.level === filter);
+  list.innerHTML = filtered.map(t => `
+    <div class="task-card" data-level="${t.level}">
+      <div class="task-header">
+        <div class="task-num ${t.level === 'medium' ? 'medium' : t.level === 'hard' ? 'hard' : ''}">
+          ${t.level === 'easy' ? 'Базовый' : t.level === 'medium' ? 'Средний' : 'Сложный'}
+        </div>
+        <div class="task-text">${t.text}</div>
+        <button class="task-toggle" onclick="toggleSolution(this)">Показать решение</button>
+      </div>
+      <div class="task-solution">
+        ${t.steps.map((s, i) => `
+          <div class="solution-step">
+            <div class="step-num">${i+1}</div>
+            <div class="step-text">${s}</div>
+          </div>
+        `).join('')}
+        <div class="answer-box">Ответ: ${t.answer}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleSolution(btn) {
+  const sol = btn.closest('.task-card').querySelector('.task-solution');
+  const isOpen = sol.classList.toggle('open');
+  btn.textContent = isOpen ? 'Скрыть решение' : 'Показать решение';
+}
+
+function filterTasks(level, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTasks(level);
+}
+
+// ===== FLASHCARDS =====
+const allCards = [
+  { tag: 'Кинематика', q: 'Скорость равномерного движения', a: 'v = s / t', desc: 'v (м/с), s (м), t (с)' },
+  { tag: 'Кинематика', q: 'Скорость при равноускоренном движении', a: 'v = v₀ + at', desc: 'a — ускорение (м/с²)' },
+  { tag: 'Кинематика', q: 'Путь при равноускоренном движении', a: 's = v₀t + at²/2', desc: 'при v₀=0: s = at²/2' },
+  { tag: 'Кинематика', q: 'Связь скорости и пути', a: 'v² = v₀² + 2as', desc: 'при v₀=0: v² = 2as' },
+  { tag: 'Кинематика', q: 'Ускорение свободного падения', a: 'g = 10 м/с²', desc: 'или g ≈ 9,8 м/с²' },
+  { tag: 'Кинематика', q: 'Средняя скорость', a: 'v̄ = s_общ / t_общ', desc: 'не путать с среднеарифметической' },
+  { tag: 'Динамика', q: 'Второй закон Ньютона', a: 'F = ma', desc: 'F (Н), m (кг), a (м/с²)' },
+  { tag: 'Динамика', q: 'Сила тяжести', a: 'F = mg', desc: 'g = 10 м/с²' },
+  { tag: 'Динамика', q: 'Сила трения скольжения', a: 'Fтр = μN', desc: 'μ — коэффициент трения' },
+  { tag: 'Динамика', q: 'Давление', a: 'p = F / S', desc: 'p (Па), S (м²)' },
+  { tag: 'Динамика', q: 'Давление в жидкости', a: 'p = ρgh', desc: 'ρ (кг/м³), h (м)' },
+  { tag: 'Динамика', q: 'Сила Архимеда', a: 'Fа = ρж·g·V', desc: 'V — объём тела в жидкости' },
+  { tag: 'Динамика', q: 'Момент силы', a: 'M = F · l', desc: 'l — плечо силы (м)' },
+  { tag: 'Динамика', q: 'Условие равновесия рычага', a: 'F₁l₁ = F₂l₂', desc: 'закон равновесия рычага' },
+  { tag: 'Динамика', q: 'Закон всемирного тяготения', a: 'F = Gm₁m₂/r²', desc: 'G = 6,67·10⁻¹¹ Н·м²/кг²' },
+  { tag: 'Динамика', q: 'Плотность вещества', a: 'ρ = m / V', desc: 'ρ (кг/м³), V (м³)' },
+  { tag: 'Энергия', q: 'Механическая работа', a: 'A = F·s·cosα', desc: 'при α=0°: A = Fs' },
+  { tag: 'Энергия', q: 'Мощность', a: 'P = A / t', desc: 'P (Вт), t (с)' },
+  { tag: 'Энергия', q: 'Мощность через скорость', a: 'P = Fv', desc: 'при равномерном движении' },
+  { tag: 'Энергия', q: 'Кинетическая энергия', a: 'Eк = mv² / 2', desc: 'Eк (Дж)' },
+  { tag: 'Энергия', q: 'Потенциальная энергия (высота)', a: 'Eп = mgh', desc: 'Eп (Дж)' },
+  { tag: 'Энергия', q: 'Потенциальная энергия (пружина)', a: 'Eп = kx² / 2', desc: 'k — жёсткость (Н/м), x — деформация (м)' },
+  { tag: 'Энергия', q: 'КПД механизма', a: 'η = Aпол / Aполн', desc: 'η (%) = η · 100%' },
+  { tag: 'Энергия', q: 'Сила упругости (Гука)', a: 'F = kx', desc: 'k — жёсткость пружины (Н/м)' },
+  { tag: 'Волны', q: 'Период колебаний', a: 'T = 1 / ν', desc: 'T (с), ν (Гц)' },
+  { tag: 'Волны', q: 'Период математического маятника', a: 'T = 2π√(l/g)', desc: 'l — длина нити (м)' },
+  { tag: 'Волны', q: 'Длина волны', a: 'λ = v · T = v/ν', desc: 'λ (м), v — скорость волны' },
+  { tag: 'Волны', q: 'Скорость волны', a: 'v = λ · ν', desc: 'v (м/с), λ (м), ν (Гц)' },
+];
+
+const tagToFilter = { 'Кинематика': 'kinematics', 'Динамика': 'dynamics', 'Энергия': 'energy', 'Волны': 'waves' };
+let filteredCards = [...allCards];
+let cardIndex = 0;
+let correctCount = 0;
+let isFlipped = false;
+
+function setCardFilter(filter, btn) {
+  document.querySelectorAll('.cards-mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filteredCards = filter === 'all' ? [...allCards] : allCards.filter(c => tagToFilter[c.tag] === filter);
+  cardIndex = 0;
+  correctCount = 0;
+  isFlipped = false;
+  document.getElementById('score-board').classList.remove('visible');
+  const arena = document.getElementById('flashcard-arena');
+  arena.style.display = 'flex';
+  renderCard();
+}
+
+function renderCard() {
+  if (cardIndex >= filteredCards.length) {
+    document.getElementById('flashcard-arena').style.display = 'none';
+    const sb = document.getElementById('score-board');
+    sb.classList.add('visible');
+    document.getElementById('score-num').textContent = correctCount + '/' + filteredCards.length;
+    return;
+  }
+  const c = filteredCards[cardIndex];
+  document.getElementById('card-tag').textContent = c.tag;
+  document.getElementById('card-tag-back').textContent = c.tag;
+  document.getElementById('card-question').textContent = c.q;
+  document.getElementById('card-answer').textContent = c.a;
+  document.getElementById('card-answer-desc').textContent = c.desc;
+  document.getElementById('card-counter').textContent = `Карточка ${cardIndex+1} из ${filteredCards.length}`;
+  document.getElementById('card-progress').textContent = `${cardIndex+1} / ${filteredCards.length}`;
+  document.getElementById('progress-fill').style.width = ((cardIndex+1)/filteredCards.length*100) + '%';
+
+  isFlipped = false;
+  const fc = document.getElementById('flashcard');
+  fc.classList.remove('flipped');
+  document.getElementById('card-actions').style.display = 'none';
+  document.getElementById('card-next').style.display = 'flex';
+}
+
+function flipCard() {
+  if (isFlipped) return;
+  isFlipped = true;
+  document.getElementById('flashcard').classList.add('flipped');
+  document.getElementById('card-actions').style.display = 'flex';
+  document.getElementById('card-next').style.display = 'none';
+}
+
+function markCard(correct) {
+  if (correct) correctCount++;
+  cardIndex++;
+  setTimeout(renderCard, 200);
+}
+
+function restartCards() {
+  cardIndex = 0;
+  correctCount = 0;
+  isFlipped = false;
+  document.getElementById('score-board').classList.remove('visible');
+  const arena = document.getElementById('flashcard-arena');
+  arena.style.display = 'flex';
+  renderCard();
+}
+
+// ===== FORMULAS TABLE =====
+const formulaGroups = [
+  {
+    section: 'Кинематика',
+    rows: [
+      { name: 'Путь (равн.)', f: 's = v · t', u: 'м' },
+      { name: 'Скорость (равноуск.)', f: 'v = v₀ + at', u: 'м/с' },
+      { name: 'Путь (равноуск.)', f: 's = v₀t + at²/2', u: 'м' },
+      { name: 'Скорость через путь', f: 'v² = v₀² + 2as', u: 'м/с' },
+    ]
+  },
+  {
+    section: 'Динамика',
+    rows: [
+      { name: '2-й закон Ньютона', f: 'F = ma', u: 'Н' },
+      { name: 'Сила тяжести', f: 'F = mg', u: 'Н' },
+      { name: 'Сила трения', f: 'Fтр = μN', u: 'Н' },
+      { name: 'Давление', f: 'p = F / S', u: 'Па' },
+      { name: 'Давление в жидкости', f: 'p = ρgh', u: 'Па' },
+      { name: 'Сила Архимеда', f: 'Fа = ρж·g·V', u: 'Н' },
+      { name: 'Плотность', f: 'ρ = m / V', u: 'кг/м³' },
+      { name: 'Момент силы', f: 'M = F · l', u: 'Н·м' },
+    ]
+  },
+  {
+    section: 'Работа и энергия',
+    rows: [
+      { name: 'Работа', f: 'A = F·s·cosα', u: 'Дж' },
+      { name: 'Мощность', f: 'P = A / t', u: 'Вт' },
+      { name: 'Кинетическая Eк', f: 'Eк = mv² / 2', u: 'Дж' },
+      { name: 'Потенциальная Eп', f: 'Eп = mgh', u: 'Дж' },
+      { name: 'Энергия пружины', f: 'Eп = kx² / 2', u: 'Дж' },
+      { name: 'Сила Гука', f: 'F = kx', u: 'Н' },
+      { name: 'КПД', f: 'η = Aпол / Aполн', u: '%' },
+    ]
+  },
+  {
+    section: 'Колебания и волны',
+    rows: [
+      { name: 'Период / частота', f: 'T = 1 / ν', u: 'с / Гц' },
+      { name: 'Маятник (период)', f: 'T = 2π√(l/g)', u: 'с' },
+      { name: 'Длина волны', f: 'λ = v / ν', u: 'м' },
+      { name: 'Скорость волны', f: 'v = λν', u: 'м/с' },
+    ]
+  }
+];
+
+function renderFormulas() {
+  const container = document.getElementById('formulas-table');
+  container.innerHTML = formulaGroups.map(g => `
+    <div class="fr-section">${g.section}</div>
+    <div class="formulas-grid">
+      ${g.rows.map(r => `
+        <div class="formula-row">
+          <div class="fr-name">${r.name}</div>
+          <div class="fr-formula">${r.f}</div>
+          <div class="fr-units">${r.u}</div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+// ===== INIT =====
+renderTasks('all');
+renderFormulas();
+renderCard();
+</script>
+</body>
+</html>
